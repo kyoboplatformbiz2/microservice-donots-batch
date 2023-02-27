@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://account-db.crfubebnxuuv.ap-northeast-2.rds.amazonaws.com
+    username: postgres
+    password: kyobo11!
+    hikari:
+      pool-name: jpa-hikari-pool
+      maximum-pool-size: 5
+      jdbc-url: jdbc:postgresql://account-db.crfubebnxuuv.ap-northeast-2.rds.amazonaws.com:5432/donots_account
+      username: postgres
+      password: kyobo11!
+      driver-class-name: org.postgresql.Driver
+      data-source-properties:
+        rewriteBatchedStatements: true
+
+#  redis:
+#    host: 34.64.81.164
+#    port: 6379
+#    database: 0
+
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
