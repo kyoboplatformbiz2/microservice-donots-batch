@@ -15,4 +15,4 @@ COPY --from=builder build/libs/*.jar microservice-donots-batch-0.0.1-SNAPSHOT.ja
 
 EXPOSE 9080
 
-ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "./microservice-donots-batch-0.5.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "./microservice-donots-batch-0.0.1-SNAPSHOT.jar"]
