@@ -62,7 +62,7 @@ public class ParentService {
      * Cron 표현식을 사용한 작업 예약
      * 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7)
      */
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     @Transactional
     public void requestActivityIndicatorsOfAllParents() throws IOException, ParseException {
         log.info("ParentService.gradeAllParents");
@@ -240,7 +240,8 @@ public class ParentService {
      * Cron 표현식을 사용한 작업 예약
      * 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7)
      */
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(initialDelay = 15000)
+//    @Scheduled(cron = "0 0 9 * * ?")
     @Transactional
     public void gradeAllParents() throws IOException {
         log.info("ParentService.gradeAllParents");
