@@ -13,6 +13,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -27,6 +29,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 @Service
+@EnableScheduling
 @Slf4j
 public class ParentService {
     private final ParentRepository parentRepository;
@@ -52,8 +55,17 @@ public class ParentService {
         return properties;
     }
 
+    /**
+     * 매일 아침 8시 집계
+     * FIXME [TEST] 임시 스케줄링 매 30분마다 수행
+     *
+     * Cron 표현식을 사용한 작업 예약
+     * 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7)
+     */
+    @Scheduled(cron = "0 0/30 * * * ?")
     @Transactional
     public void requestActivityIndicatorsOfAllParents() throws IOException, ParseException {
+        log.info("ParentService.gradeAllParents");
 
         String sampleJson = "{\n" +
                 "    \"select_recipe_statistic\": [\n" +
@@ -124,7 +136,7 @@ public class ParentService {
         Object obj = parser.parse(sampleJson);
 
         // 홈 > 알림 API 호출 시작
-        String recipeurl = loadProperty().getProperty("recipeurl");
+        String recipeurl = loadProperty().getProperty("recipeAdminUrl");
         String url = recipeurl + "/v1/admin/selectRecipeStatistic";
         //http://k8s-eksrecipeadmingro-b330c393ac-432154376.ap-northeast-2.elb.amazonaws.com/v1/admin/selectRecipeStatistic
 
@@ -222,8 +234,16 @@ public class ParentService {
         }
     }
 
+    /**
+     * 매일 아침 9시
+     *
+     * Cron 표현식을 사용한 작업 예약
+     * 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(0-7)
+     */
+    @Scheduled(cron = "0 0 9 * * ?")
     @Transactional
     public void gradeAllParents() throws IOException {
+        log.info("ParentService.gradeAllParents");
 
         List<Parent> foundParents = parentRepository.findAll();
         for (Parent foundParent : foundParents) {
